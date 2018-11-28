@@ -90,3 +90,125 @@
 </body>
 
 </html>
+
+<!doctype html>
+<html>
+
+<head>
+	<title>D3 tutorial</title>
+	<script src="http://d3js.org/d3.v3.min.js"></script>
+</head>
+
+<body>
+
+	<script>
+		
+		var users = 
+		[
+			{"username": "conor-gil", "loc": 104},
+			{"username": "dhurley", "loc": 38},
+			{"username": "cianob", "loc": 186},
+			{"username": "eleahy", "loc": 176},
+			{"username": "conor-gil2", "loc": 204},
+			{"username": "dhurley2", "loc": 138},
+			{"username": "cianob2", "loc": 286},
+			{"username": "eleahy2", "loc": 56},
+			{"username": "conor-gil3", "loc": 304},
+			{"username": "dhurley3", "loc": 338},
+			{"username": "cianob3", "loc": 106},
+			{"username": "eleahy3", "loc": 78}
+		]
+		users.sort("loc")
+		var len = users.length;
+		var data = [len];
+		var name = [len];
+		for (i=0; i<len; i++)
+		{
+			name[i] = users[i].username;
+			data[i] = users[i].loc;
+		}
+		
+		var r = 250;
+		var width = 1500;
+		var height = 1500;
+		
+		var color = d3.scale.linear()
+			.domain([0,400])
+			.range(["red","blue"]);
+			
+		var canvas = d3.select("body").append("svg")
+			.attr("width", width)
+			.attr("height", height);
+			
+			
+		var group = canvas.append("g")
+			.attr("transform","translate(300,300)");
+			
+		var arc = d3.svg.arc()
+			.innerRadius(0)
+			.outerRadius(r);
+			
+		var pie = d3.layout.pie()
+			.value(function (d) { return d.loc});
+			
+		var arcs = group.selectAll(".arc")
+			.data(pie(users))
+			.enter()
+			.append("g")
+			.attr("class","arc");
+			
+		arcs.append("path")
+			.attr("d",arc)
+			.attr("fill", function (d) { return color(d.data.loc); });
+		
+		var boxes = canvas.selectAll("rect")
+			.data(pie(data))
+			.enter()
+				.append("rect")
+				.attr("width", 20)
+				.attr("height", 20)
+				.attr("x", 2*r + 150)
+				.attr("y", function(d,i) { return i * 25; })
+				.attr("fill", function(d) { return color(d.data); });
+	
+			
+		arcs.append("text")
+			.attr("text-anchor", "middle")
+			.attr("x", function(d) {
+				var a = d.startAngle + (d.endAngle - d.startAngle)/2 - Math.PI/2;
+				d.cx = Math.cos(a) * (r - 45);
+				return d.x = Math.cos(a) * (r+30);
+			})
+			.attr("y", function(d) {
+				var a = d.startAngle + (d.endAngle - d.startAngle)/2 - Math.PI/2;
+				d.cy = Math.sin(a) * (r - 45);
+				return d.y = Math.sin(a) * (r + 30);
+			})
+			.text(function(d) { return d.value;  })
+			.each(function(d) {
+				var bbox = this.getBBox();
+				d.sx = d.x - bbox.width/2 - 2;
+				d.ox = d.x + bbox.width/2 + 2;
+				d.sy = d.oy = d.y + 5;
+			});
+			
+		arcs.append("path")
+			.attr("class", "pointer")
+			.style("fill", "none")
+			.style("stroke", "black")
+    
+			.attr("d", function(d) {
+				console.log(d);
+				if(d.cx > d.ox) {
+					return "M" + d.sx + "," + d.sy + "L" + d.ox + "," + d.oy + " " + d.cx + "," + d.cy;
+				} else {
+					return "M" + d.ox + "," + d.oy + "L" + d.sx + "," + d.sy + " " + d.cx + "," + d.cy;
+				}
+		});
+						
+					
+	</script>
+
+</body>
+
+</html>
