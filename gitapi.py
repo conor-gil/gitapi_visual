@@ -15,5 +15,15 @@ g = Github(user, pw)
 # Then play with your Github objects:
 for repo in g.get_user().get_repos():
     print(repo.name)
+    for contrib in repo.get_contributors():
+        print("Contributor: " + contrib.login)
+
+    comCount = 0
+    commits = {}
     for commit in repo.get_commits():
-        print(commit.commit.author.date)
+        cname = commit.commit.author.name
+        try:
+            commits[cname] = commits[cname] + 1
+        except:
+            commits[cname] = 1
+    print(str(commits) + "\n")
