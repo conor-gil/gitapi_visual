@@ -1,5 +1,6 @@
-<!doctype html>
-<html>
+{% extends 'base.html' %}
+
+{% block content %}
 
 <head>
 	<title>D3 tutorial</title>
@@ -40,9 +41,8 @@
 		var width = 1500;
 		var height = 1500;
 		
-		var color = d3.scale.linear()
-			.domain([d3.min(data),d3.max(data)])
-			.range(["red","blue"]);
+		var color = d3.scale.ordinal()
+			.range(["red","blue","yellow","green","orange"]);
 			
 		var canvas = d3.select("body").append("svg")
 			.attr("width", width)
@@ -66,7 +66,7 @@
 			
 		arcs.append("path")
 			.attr("d",arc)
-			.attr("fill", function (d) { return color(d.data); });
+			.attr("fill", function (d,i) { return color(i); });
 			
 		arcs.append("text")
 			.attr("text-anchor", "middle")
@@ -107,4 +107,4 @@
 
 </body>
 
-</html>
+{% endblock %}

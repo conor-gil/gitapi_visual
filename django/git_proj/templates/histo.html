@@ -1,8 +1,8 @@
-<!doctype html>
-<html>
+{% extends 'base.html' %}
 
+{% block content %}
 <head>
-	<title>D3 tutorial</title>
+	<title>Histogram</title>
 	<script src="http://d3js.org/d3.v3.min.js"></script>
 </head>
 
@@ -62,8 +62,8 @@
 			.range([0,height]);
 			
 		var x = d3.scale.linear()
-			.domain([0,d3.max(map)])
-			.range([0,width]);
+			.domain([1,d3.max(map)])
+			.range([1,width]);
 			
 		var xAxis = d3.svg.axis()
 			.scale(x)
@@ -87,7 +87,7 @@
 		bars.append("rect")
 			.attr("x", function (d) { return x(d.x); })
 			.attr("y", function (d) { return height - y(d.y); })
-			.attr("width", function (d) { return x(d.dx); })
+			.attr("width", function (d) { return x(d.dx) * 50 - 1; })
 			.attr("height", function (d) { return y(d.y); })
 			.attr("fill", "steelblue");
 			
@@ -95,7 +95,7 @@
 			.attr("x", function (d) { return x(d.x); })
 			.attr("y", function (d) { return height - y(d.y); })
 			.attr("dy", "-10px")
-			.attr("dx", function(d) { return x(d.dx)/2; })
+			.attr("dx", function(d) { return (x(d.dx)*15); })
 			.attr("fill", "black")
 			.attr("tect-anchor", "middle")
 			.text(function (d) { return d.y; });
@@ -104,5 +104,4 @@
 	</script>
 
 </body>
-
-</html>
+{% endblock %}
