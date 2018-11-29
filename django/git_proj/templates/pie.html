@@ -26,8 +26,14 @@
 			{"username": "eleahy2", "commits": 176}
 		]
 		
-		var data = list.map(function (i) { return parseInt(i.commits); });
-		console.log(data);
+		var map = list.map(function (i) { return parseInt(i.commits); });
+		map.sort(function(a,b) { return a - b; });
+		var data = [];
+		data.push(map.pop());
+		data.push(map.pop());
+		data.push(map.pop());
+		data.push(map.pop());
+		data.push(map.pop());
 		
 		
 		var r = 250;
@@ -35,7 +41,7 @@
 		var height = 1500;
 		
 		var color = d3.scale.linear()
-			.domain([0,2779])
+			.domain([d3.min(data),d3.max(data)])
 			.range(["red","blue"]);
 			
 		var canvas = d3.select("body").append("svg")
