@@ -1,0 +1,94 @@
+<!doctype html>
+<html>
+
+<head>
+	<title>D3 tutorial</title>
+	<script src="http://d3js.org/d3.v3.min.js"></script>
+</head>
+
+<body>
+
+	<script>
+		
+		
+		var users = 
+		[
+			{"username": "conor-gil", "commits": 104},
+			{"username": "dhurley", "commits": 38},
+			{"username": "cianob", "commits": 186},
+			{"username": "eleahy", "commits": 76},
+			{"username": "conor-gil2", "commits": 204},
+			{"username": "dhurley2", "commits": 138},
+			{"username": "cianob2", "commits": 286},
+			{"username": "eleahy2", "commits": 176},
+			{"username": "conor-gil3", "commits": 142},
+			{"username": "dhurley3", "commits": 238},
+			{"username": "cianob3", "commits": 146},
+			{"username": "eleahy3", "commits": 57},
+			{"username": "conor-gil4", "commits": 134},
+			{"username": "dhurley4", "commits": 165},
+			{"username": "cianob4", "commits": 86},
+			{"username": "eleahy4", "commits": 276}
+		]
+		
+		var map = users.map(function (i) { return parseInt(i.commits); });
+		console.log(map);
+		
+		
+		var padding = 50;
+		var width = 500;
+		var height = 500;
+		
+		var histogram = d3.layout.histogram()
+			.bins(5)
+			(map)
+			
+		var y = d3.scale.linear()
+			.domain([0,d3.max(histogram.map(function(i) {return i.length;} ))])
+			.range([0,height];
+			
+		var x = d3.scale.linear()
+			.domain([0,d3.max(map)])
+			.range([0,width])
+			
+		var xAxis = d3.svg.axis()
+			.scale(x)
+			.orient("bottom");
+			
+		var canvas = d3.select("body").append("svg")
+			.attr("width", width)
+			.attr("height", height + padding)
+			.append("g")
+				.attr("transform", "translate(20,0)")
+				
+		var group = canvas.append("g")
+			.attr("transform", "translate(0," + height + ")")
+			.call(xAxis);
+			
+		var bars = canvas.selectAll(".bar")
+			.data(histogram)
+			.enter()
+			.append("g")
+			
+		bars.append("rect")
+			.attr("x", function (d) { return x(d.x); })
+			.attr("y", function (d) { return height - y(d.y); })
+			.attr("width", function (d) { return x(d.dx); })
+			.attr("height", function (d) { return y(d.y); })
+			.attr("fiil", "steelblue")
+			
+		bars.append("text")
+			.attr("x", function (d) { return x(d.x); })
+			.attr("y", function (d) { return height - y(d.y); })
+			.attr("dy", "20px")
+			.attr("dx", function(d) { return x(d.dx)/2; })
+			.attr("fill", "white")
+			.attr("tect-anchor", "middle")
+			.text(function (d) { return d,y; })
+						
+					
+	</script>
+
+</body>
+
+</html>
