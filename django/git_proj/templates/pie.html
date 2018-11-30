@@ -36,13 +36,11 @@
 		{
 			data.push(map.pop());
 		}
-		console.log(list);
 		var user5 = [];
 		for (i = 0; i < 5; i++)
 		{
 			user5.push(list.pop().name);
 		}
-		console.log(user5);
 		
 		
 		var r = 250;
@@ -128,7 +126,6 @@
 			.style("stroke", "black")
     
 			.attr("d", function(d) {
-				console.log(d);
 				if(d.cx > d.ox) {
 					return "M" + d.sx + "," + d.sy + "L" + d.ox + "," + d.oy + " " + d.cx + "," + d.cy;
 				} else {
