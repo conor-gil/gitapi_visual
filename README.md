@@ -3,7 +3,8 @@
 
 pip install PyGithub
 python gitapi.py
-enter github usernmae and password
+ - enter github username and password when prompted
+update_git
 python django/git_proj/manage.py runserver
 
 
