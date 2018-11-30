@@ -74,6 +74,16 @@
 			.attr("height", height + padding)
 			.append("g")
 				.attr("transform", "translate(20,30)");
+		
+		canvas.append("rect")
+			.attr("width", "100%")
+			.attr("height", "100%")
+			.attr("fill", "MistyRose");
+			
+		canvas.append("text")
+			.attr("x", "135")
+			.attr("y", "20")
+			.text("All users without top 5 contributors");
 				
 		var group = canvas.append("g")
 			.attr("transform", "translate(0," + height + ")")

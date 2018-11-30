@@ -27,26 +27,60 @@
 			{"username": "eleahy2", "commits": 176}
 		]
 		
+		list.sort(function(a,b) { return a.commits - b.commits;});
 		var map = list.map(function (i) { return parseInt(i.commits); });
-		map.sort(function(a,b) { return a - b; });
+		
 		var data = [];
-		data.push(map.pop());
-		data.push(map.pop());
-		data.push(map.pop());
-		data.push(map.pop());
-		data.push(map.pop());
+		var i;
+		for (i = 0; i < 5; i++)
+		{
+			data.push(map.pop());
+		}
+		console.log(list);
+		var user5 = [];
+		for (i = 0; i < 5; i++)
+		{
+			user5.push(list.pop().name);
+		}
+		console.log(user5);
 		
 		
 		var r = 250;
-		var width = 1500;
-		var height = 1500;
+		var width = 800;
+		var height = 600;
 		
 		var color = d3.scale.ordinal()
-			.range(["red","blue","yellow","green","orange"]);
+			.range(["#bd1e24","#e97600","#007256","#0067a7","#964f8e"]);
 			
 		var canvas = d3.select("body").append("svg")
 			.attr("width", width)
 			.attr("height", height);
+			
+		canvas.append("rect")
+			.attr("width", "100%")
+			.attr("height", "100%")
+			.attr("fill", "Cornsilk");
+			
+		var k;
+		for (k = 0; k < 5; k++)
+		{
+			canvas.append("rect")
+				.attr("width", "15")
+				.attr("height", "15")
+				.attr("x", 600)
+				.attr("y", k*30 + 20)
+				.attr("fill", color(k));
+				
+			canvas.append("text")
+				.attr("x", "620")
+				.attr("y", k*30 + 30)
+				.text(user5[k]);
+		}
+			
+		canvas.append("text")
+			.attr("x", "10")
+			.attr("y", "20")
+			.text("Top Five Users");
 			
 		var group = canvas.append("g")
 			.attr("transform","translate(300,300)");
